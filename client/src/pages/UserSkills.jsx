@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import SkillAdd from "../components/SkillAdd";
-import SkillList from "../components/SkillList";
-import SkillUpdate from "../components/SkillUpdate";
-import { Container, Col, Row, Modal } from "reactstrap"
+import SkillAdd from "../components/skills/SkillAdd";
+import SkillList from "../components/skills/SkillList";
+import { Container, Col, Row } from "reactstrap"
 import axios from 'axios';
 
 
 export default function UserSkills() {
     // state declaration
-    const [modal, setModal] = useState(false);
     const [userSkills, setUserSkills] = useState([]);
-    const [skillId, setSkillId] = useState(null);
 
     // get all user skills to list
     const getUserSkills = () => {
@@ -19,17 +16,6 @@ export default function UserSkills() {
                 setUserSkills(res.data.data)
             })
             .catch((err) => alert(err.response.data.message))
-    };
-
-    // open update modal
-    const handleUpdateModal = (id) => {
-        setSkillId(id);
-        setModal(true);
-    };
-
-    // toggle update handleUpdateModal
-    const toggleModal = () => {
-        setModal(!modal);
     };
 
     //  lifecycle
@@ -49,19 +35,9 @@ export default function UserSkills() {
                     <Col sm="12" lg="6">
                         <SkillList
                             userSkills={userSkills}
-                            handleUpdateModal={handleUpdateModal}
                             getUserSkills={getUserSkills}
                         /></Col>
                 </Row>
-                <Modal isOpen={modal} toggle={toggleModal}>
-                    <div className="mx-2">
-                        <SkillUpdate
-                            skillId={skillId}
-                            getUserSkills={getUserSkills}
-                            toggleModal={toggleModal}
-                        />
-                    </div>
-                </Modal>
             </Container>
         </React.Fragment>
     )
