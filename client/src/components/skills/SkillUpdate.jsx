@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import {
-    Button,
-    Input,
-    Label,
-    Form,
-    Row,
-    Col,
-    FormGroup,
-    InputGroup,
-} from 'reactstrap';
 import axios from 'axios';
+import {
+    Form,
+    Input,
+    Button,
+    Col,
+    Space,
+    Select,
+} from 'antd';
+import Notification from "../helpers/Notification";
 
 
 export default function SkillUpdate(props) {
+    const { Option } = Select;
     const { getUserSkills, toggleModal, skillId } = props;
 
     const [inputs, setInputs] = useState({
@@ -28,8 +28,7 @@ export default function SkillUpdate(props) {
         setInputs({ ...inputs, [name]: value });
     };
 
-    const handleLocationOptions = (event) => {
-        let value = Array.from(event.target.selectedOptions, option => option.value);
+    const handleLocationOptions = (value) => {
         setInputs({ ...inputs, locationOptions: value });
     };
 
@@ -45,10 +44,10 @@ export default function SkillUpdate(props) {
                 if (res.data.status === "success") {
                     getUserSkills();
                     toggleModal();
-                    alert("Updated your skill successfully!")
-                }
+                    Notification('success', "Updated your skill successfully");
+                };
             })
-            .catch((err) => alert(err.response.data.message))
+            .catch((err) => Notification('error', err.response.data.message))
     };
 
     // get a skill by id to update
@@ -63,7 +62,7 @@ export default function SkillUpdate(props) {
                     locationOptions: res.data.data.location_options.map(e => e.option),
                 })
             })
-            .catch((err) => alert(err.response.data.message))
+            .catch((err) => Notification('error', err.response.data.message))
     };
 
     useEffect(() => {
@@ -72,64 +71,87 @@ export default function SkillUpdate(props) {
 
     return (
         <React.Fragment>
-            <div className="mx-3 my-3">
-                <h3 className="text-center">Update Skill</h3>
-                <Form className="mt-5">
-                    <Row>
-                        <Col xs="12">
-                            <FormGroup>
-                                <InputGroup>
-                                    <Input
-                                        onChange={handleInputChange}
-                                        value={inputs.category}
-                                        type="text"
-                                        name="category"
-                                        placeholder="category"
-                                        required
-                                    ></Input>
-                                </InputGroup>
-                            </FormGroup>
-                        </Col>
-                        <Col xs="12">
-                            <FormGroup>
-                                <Label for="locationOptions" style={{ fontSize: "1.2rem" }}>Location Options(use ctrl&cmd for mutiple select)</Label>
-                                <Input type="select" name="locationOptions" id="locationOptions2" onChange={handleLocationOptions} required multiple>
-                                    <option value="choose" checked={inputs.locationOptions.indexOf("choose") > -1}>Choose</option>
-                                    <option value="instructor" checked={inputs.locationOptions.indexOf("instructor") > -1}>Instructor</option>
-                                    <option value="online" checked={inputs.locationOptions.indexOf("online") > -1}>Online</option>
-                                </Input>
-                            </FormGroup>
-                        </Col>
-                        <Col xs="12">
-                            <FormGroup>
-                                <InputGroup>
-                                    <Input
-                                        onChange={handleInputChange}
-                                        value={inputs.travelFee}
-                                        type="number"
-                                        name="travelFee"
-                                        placeholder="travelFee"
-                                        required
-                                    ></Input>
-                                </InputGroup>
-                            </FormGroup>
-                        </Col>
-                    </Row>
-                    <Label for="tagLine" style={{ fontSize: "1.5rem" }}>Tag Line</Label><br />
-                    <Input
-                        onChange={handleInputChange}
-                        value={inputs.tagLine}
-                        type="textarea"
-                        name="tagLine"
-                        style={{ minHeight: "50px" }}
-                    ></Input>
-                    <Button
-                        className="btn btn-lg mt-5"
-                        onClick={handleUpdateSkill}
-                    >Update Skill
-                    </Button>
+            <Col span={24} offset={5}>
+                <h1 >Add new Skill</h1>
+                <Form
+                    name="basic"
+                    // labelCol={{ span: 2 }}
+                    // wrapperCol={{ span: 2 }}
+                    // initialValues={{ remember: true }}
+                    onFinish={handleUpdateSkill}
+                    // onFinishFailed={onFinishFailed}
+                    autoComplete="off"
+                >
+                    <Space direction="vertical">
+                        <Input
+                            style={{
+                                width: 300,
+                            }}
+                            size="small"
+                            placeholder="Category"
+                            name="category"
+                            type="text"
+                            value={inputs.category}
+                            onChange={handleInputChange}
+                            allowClear
+                        />
+                        <Input
+                            style={{
+                                width: 300,
+                            }}
+                            size="small"
+                            placeholder="Tagline"
+                            name="tagLine"
+                            type="text"
+                            value={inputs.tagLine}
+                            onChange={handleInputChange}
+                            allowClear
+                        />
+                        <Input
+                            style={{
+                                width: 300,
+                            }}
+                            size="small"
+                            placeholder="Travel Fee"
+                            name="travelFee"
+                            type="number"
+                            value={inputs.travelFee}
+                            min="0"
+                            step="0.01"
+                            onChange={handleInputChange}
+                        />
+                        <Select
+                            mode="multiple"
+                            style={{ width: '100%' }}
+                            size="small"
+                            placeholder="select location"
+                            name="locationOptions"
+                            onChange={handleLocationOptions}
+                            value={inputs.locationOptions}
+                            optionLabelProp="label"
+                        >
+                            <Option value="choose" label="choose">
+                                <div className="demo-option-label-item">
+                                    Choose
+                                </div>
+                            </Option>
+                            <Option value="instructor" label="instructor">
+                                <div className="demo-option-label-item">
+                                    Instructor
+                                </div>
+                            </Option>
+                            <Option value="online" label="online">
+                                <div className="demo-option-label-item">
+                                    Online
+                                </div>
+                            </Option>
+                        </Select>
+                        <Button type="primary" htmlType="submit" shape="round">
+                            Update
+                        </Button>
+                    </Space>
                 </Form>
-            </div>
+            </Col>
         </React.Fragment>
     )
 };

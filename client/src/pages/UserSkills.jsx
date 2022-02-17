@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import SkillAdd from "../components/skills/SkillAdd";
 import SkillList from "../components/skills/SkillList";
-import { Container, Col, Row } from "reactstrap"
-import axios from 'axios';
+import Notification from "../components/helpers/Notification";
 
 
 export default function UserSkills() {
@@ -15,7 +15,7 @@ export default function UserSkills() {
             .then((res) => {
                 setUserSkills(res.data.data)
             })
-            .catch((err) => alert(err.response.data.message))
+            .catch((err) => Notification("error", err.response.data.message))
     };
 
     //  lifecycle
@@ -25,20 +25,13 @@ export default function UserSkills() {
 
     return (
         <React.Fragment>
-            <Container>
-                <Row>
-                    <Col sm="12" lg="6">
-                        <SkillAdd
-                            getUserSkills={getUserSkills}
-                        />
-                    </Col>
-                    <Col sm="12" lg="6">
-                        <SkillList
-                            userSkills={userSkills}
-                            getUserSkills={getUserSkills}
-                        /></Col>
-                </Row>
-            </Container>
+            <SkillAdd
+                getUserSkills={getUserSkills}
+            />
+            <SkillList
+                userSkills={userSkills}
+                getUserSkills={getUserSkills}
+            />
         </React.Fragment>
     )
 };
