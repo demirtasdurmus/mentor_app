@@ -15,5 +15,13 @@ module.exports = sampledb.define(
             type: Sequelize.STRING(50),
             allowNull: false,
         },
+        email: {
+            type: Sequelize.STRING(50),
+            allowNull: false,
+        },
+        password: {
+            type: Sequelize.TEXT,
+            allowNull: false,
+        },
     }
 );
