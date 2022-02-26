@@ -3,6 +3,7 @@ const path = require("path");
 // libraries and frameworks
 const express = require("express");
 const app = express();
+const cookieParser = require('cookie-parser')
 // const compression = require('compression');
 const cors = require('cors');
 // const helmet = require("helmet");
@@ -23,6 +24,9 @@ app.use(cors());
 
 // setting security HTTP headers
 // app.use(helmet());
+
+// parsing cookies for auth
+app.use(cookieParser())
 
 // parsing incoming requests with JSON body payloads
 app.use(express.json());

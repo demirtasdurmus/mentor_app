@@ -3,6 +3,7 @@ import axios from 'axios';
 import SkillAdd from "../components/skills/SkillAdd";
 import SkillList from "../components/skills/SkillList";
 import Notification from "../components/helpers/Notification";
+import Cookies from 'js-cookie';
 
 
 export default function UserSkills() {
@@ -21,6 +22,8 @@ export default function UserSkills() {
     //  lifecycle
     useEffect(() => {
         getUserSkills();
+        console.log(Cookies.get('session'), "one set by client")
+        console.log(Cookies.get('jwt'), "one set by server")
     }, []);
 
     return (
