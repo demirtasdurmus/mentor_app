@@ -1,0 +1,25 @@
+{
+  "name": "mentor_app",
+  "version": "1.0.0",
+  "description": "#sequelize orm to set up databases, models and whole db communiation",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"cd apiserver && nodemon index.js\" \"cd client && npm start\" ",
+    "prod": "concurrently \"cd apiserver && nodemon index.js\" ",
+    "build": "concurrently \"cd client && npm run build\" ",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/demirtasdurmus/mentor_app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/demirtasdurmus/mentor_app/issues"
+  },
+  "homepage": "https://github.com/demirtasdurmus/mentor_app#readme",
+  "dependencies": {
+    "concurrently": "^7.0.0"
+  }
+}
